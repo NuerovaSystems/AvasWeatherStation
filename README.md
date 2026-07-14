@@ -73,4 +73,4 @@ Weather powered by [AccuWeather](https://developer.accuweather.com/).
 
 ## License
 
-MIT License
+General Public License
