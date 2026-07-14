@@ -66,7 +66,7 @@ Check real-time weather and multi-day forecasts for any city–all in your brows
 
 ## Credits
 
-Frontend & backend built by James Hughes.  
+Frontend & backend built by Ava Hughes.  
 Weather powered by [AccuWeather](https://developer.accuweather.com/).
 
 ---
