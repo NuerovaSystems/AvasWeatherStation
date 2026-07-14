@@ -16,13 +16,6 @@ Check real-time weather and multi-day forecasts for any city–all in your brows
 
 ---
 
-## Demo
-
-![Screenshot of dashboard](example-screenshot.png)  
-*(Add your own screenshot!)*
-
----
-
 ## Quick Start
 
 1. **Clone the repo**:
