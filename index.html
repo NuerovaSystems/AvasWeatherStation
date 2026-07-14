@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ava's Weather Station</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="main-container">
+    <h1>Ava's Weather Station</h1>
+    <label>City: <input type="text" id="city"></label>
+    <label>State: <input type="text" id="state"></label>
+    <div style="margin-top:12px;">
+      <button onclick="getWeather()">Get Current Weather</button>
+      <button onclick="getForecast()">Get Forecast</button>
+    </div>
+    <div id="output"></div>
+  </div>
+  <script>
+    function getWeather() {
+      const city = document.getElementById('city').value;
+      const state = document.getElementById('state').value;
+      fetch(`/weather/current?city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById('output').innerHTML = `<span style="color:tomato">${data.error}</span>`;
+            return;
+          }
+          document.getElementById('output').innerHTML = `
+            <h2 style="color:#24b0ff;">${data.city}, ${data.state}</h2>
+            <div>
+              <strong>Condition:</strong> ${data.condition}<br>
+              <strong>Temperature:</strong> ${data.temperature}&deg;${data.units}<br>
+              <strong>Humidity:</strong> ${data.humidity}%<br>
+              <strong>Updated:</strong> ${new Date(data.timestamp).toLocaleString()}
+            </div>
+          `;
+        });
+    }
+
+    function getForecast() {
+      const city = document.getElementById('city').value;
+      const state = document.getElementById('state').value;
+      fetch(`/weather/forecast?city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}&days=5`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById('output').innerHTML = `<span style="color:tomato">${data.error}</span>`;
+            return;
+          }
+          let html = `<h2 style="color:#24b0ff;">${data.city}, ${data.state} - 5 Day Forecast</h2>`;
+          html += `<table style="width:100%;margin-top:10px;">
+            <tr style="background:#e0f7fa;">
+              <th>Date</th><th>Condition</th><th>Min</th><th>Max</th>
+            </tr>`;
+          for (const day of data.forecast) {
+            html += `
+              <tr>
+                <td>${new Date(day.date).toLocaleDateString()}</td>
+                <td>${day.condition}</td>
+                <td>${day.min_temp}&deg;${day.units}</td>
+                <td>${day.max_temp}&deg;${day.units}</td>
+              </tr>
+            `;
+          }
+          html += `</table>`;
+          document.getElementById('output').innerHTML = html;
+        });
+    }
+  </script>
+</body>
+</html>
